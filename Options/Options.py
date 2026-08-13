@@ -29,7 +29,7 @@ class Options:
         self.suffix = """\t\t\t},
 \t\t\t["params"] = {
 \t\t\t\t["bounds"] = {
-\t\t\t\t\t["h"] = 600,
+\t\t\t\t\t["h"] = 1200,
 \t\t\t\t\t["w"] = 974,
 \t\t\t\t\t["x"] = 0,
 \t\t\t\t\t["y"] = 0,
@@ -50,7 +50,7 @@ class Options:
 \t},
 \t["params"] = {
 \t\t["bounds"] = {
-\t\t\t["h"] = 851,
+\t\t\t["h"] = 1200,
 \t\t\t["w"] = 1135,
 \t\t\t["x"] = 0,
 \t\t\t["y"] = 0,

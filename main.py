@@ -128,12 +128,12 @@ opts.add(
 
 opts.add(
     Objects.Checkbox(
-        optionName="PLACEHOLDER",
+        optionName="INTERCOM_HOT_MIC",
         x=leftColumnX,
         y=newLine(),
         state=False,
-        text="Placeholder Option (INOP - TODO)",
-        tooltip="IDK What this should be, waiting for an idea",
+        text="Enable Intercom Hot Mic",
+        tooltip="IRL, Intercom is PTT, but we allow the option to make it a hot mic, please don't blow out your crewmates eardrums!",
         skin=Skins.CheckBoxSkin
     )
 )
@@ -229,6 +229,51 @@ opts.add(
         tooltip="I made this for one guy who wanted to be able to shoot his own units with the AI gunner, because hes crazy like that <3",
         skin=Skins.CheckBoxSkin,
         depends_on="DISABLE_AI_GUNNER",
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="AI_GUNNER_LONG_PRESS_SECONDS",
+        x=rightColumnX,
+        y=currentLineY,
+        text="Menu Long Press Time:",
+        tooltip="",
+        skin=Skins.StaticOptionsCaptionSkin
+    )
+)
+
+opts.add(
+    Objects.Slider(
+        optionName = "AI_GUNNER_LONG_PRESS_SECONDS",
+        x=rightColumnX + 150,
+        y=currentLineY,
+        w=200,
+        default=0.25,
+        max=1, min=0.1, step=0.05,
+        skin=Skins.HorzSliderSkinOptions
+    )
+)
+
+opts.add(
+    Objects.Widget(
+        optionName = "AI_GUNNER_LONG_PRESS_SECONDS",
+        x=rightColumnX + 330,
+        y=currentLineY,
+        w=50,
+        text="0",
+        skin=Skins.StaticOptionsSliderValueSkin
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="AI_GUNNER_LONG_PRESS_SECONDS_HELP",
+        x=rightColumnX,
+        y=helpLine(),
+        text="Adjust the duration of the long press required for the AI gunner menu.",
+        tooltip="",
+        skin=Skins.HelpSkin
     )
 )
 
