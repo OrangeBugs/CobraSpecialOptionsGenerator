@@ -17,6 +17,7 @@ class Options:
         self._skin_names = set()
 
         self.db_entries = []
+        self.post_db_entries = []
         self.dependencies = []
         self.callbacks = set()
 
@@ -84,7 +85,14 @@ class Options:
                 self.skins.append(skin_class())
 
         if hasattr(element, "to_db"):
-            self.db_entries.append(element.to_db())
+            db_entry = element.to_db()
+            if db_entry:
+                self.db_entries.append(db_entry)
+
+        if hasattr(element, "to_post_db"):
+            post_db_entry = element.to_post_db()
+            if post_db_entry:
+                self.post_db_entries.append(post_db_entry)
 
         if hasattr(element, "depends_on") and element.depends_on:
             self.dependencies.append((element.depends_on, element))
@@ -95,7 +103,7 @@ class Options:
 
         for parent, child in self.dependencies:
             parent_ui = f'config.{parent}Checkbox'
-            child_ui = f'config.{child.base_name}Checkbox'
+            child_ui = f'config.{child.name}'
 
             lines.append(
                 f'\t{child_ui}:setEnabled(not {parent_ui}:getState())'
@@ -141,6 +149,7 @@ end
     def build_db(self):
         content = """local DbOption  = require('Options.DbOption')
 local i18n      = require('i18n')
+local oms            = require('optionsModsScripts')
 
 local _ = i18n.ptranslate
 
@@ -158,6 +167,12 @@ local config = nil
             content += entry + "\n"
 
         content += "}\n\n"
+
+        for entry in self.post_db_entries:
+            content += entry + "\n"
+
+        if self.post_db_entries:
+            content += "\n"
 
         if self.dependencies:
             content += "result.callbackOnShowDialog = OnShowDialog\n"

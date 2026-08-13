@@ -33,11 +33,11 @@ def helpLine():
 # Title
 opts.add(
     Objects.Label(
-        optionName="AH1G",
+        optionName="Plane",
         x=leftColumnX,
         y=currentLineY,
         w=100,
-        text="AH-1G Cobra",
+        text="Your Aircraft",
         tooltip="",
         skin=Skins.StaticOptionsTitleSkin
     )
