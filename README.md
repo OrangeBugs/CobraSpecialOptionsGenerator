@@ -102,13 +102,30 @@ Objects.Label(
     y=120,
     text="Display text",
     tooltip="",
-    skin=Skins.HelpSkin
+    skin=Skins.HelpSkin,
+    depends_on="OPTION_NAME"
 )
 ```
 
 Notes:
 - UI only
 - No DB entry
+- Supports `depends_on`; the label is disabled with its associated control.
+
+### Divider
+
+```python
+Objects.Divider(
+    optionName="ADVANCED_SECTION",
+    x=40,
+    y=200,
+    w=894,
+)
+```
+
+Generates the native DXGUI horizontal-divider pattern: a one-pixel `Panel`
+using `panelSkin`. The optional `color` argument defaults to DCS's
+`0x00000041` divider color.
 
 ---
 

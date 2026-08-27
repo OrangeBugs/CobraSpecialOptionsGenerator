@@ -9,6 +9,7 @@ class Label:
         text: str = "",
         tooltip: str = "",
         skin=None,
+        depends_on: str = None,
     ):
         self.name = f"{optionName}Label"
         self.x = x
@@ -18,6 +19,7 @@ class Label:
         self.text = text
         self.tooltip = tooltip
         self.skin = skin
+        self.depends_on = depends_on
 
     def __str__(self):
 

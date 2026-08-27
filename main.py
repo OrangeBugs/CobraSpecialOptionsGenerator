@@ -34,12 +34,21 @@ def helpLine():
 opts.add(
     Objects.Label(
         optionName="AH1G",
-        x=leftColumnX,
+        x=350,
         y=currentLineY,
         w=100,
         text="AH-1G Cobra",
         tooltip="",
         skin=Skins.StaticOptionsTitleSkin
+    )
+)
+
+opts.add(
+    Objects.Divider(
+        optionName="GENERAL_OPTIONS_SECTION",
+        x=headerX,
+        y=currentLineY + (sectionLineSpacing // 2),
+        w=894,
     )
 )
 
@@ -49,7 +58,7 @@ opts.add(
     Objects.Label(
         optionName="GENERAL_OPTIONS",
         x=headerX,
-        y=newLine(),
+        y=newSection(),
         w=100,
         text="General Options",
         tooltip="",
@@ -68,18 +77,6 @@ opts.add(
         skin=Skins.CheckBoxSkin
     )
 )
-
-# opts.add(
-#     Objects.Checkbox(
-#         optionName="COCKPIT_SHAKE",
-#         x=rightColumnX,
-#         y=currentLineY,
-#         state=False,
-#         text="Disable Cockpit Shake (INOP - TODO)",
-#         tooltip="When enabled, the cockpit will not shake during flight.",
-#         skin=Skins.CheckBoxSkin
-#     )
-# )
 
 opts.add(
     Objects.Label(
@@ -117,9 +114,20 @@ opts.add(
 
 opts.add(
     Objects.Label(
+        optionName="SHOW_CONTROLS_HELP",
+        x=leftColumnX,
+        y=helpLine(),
+        text="When enabled, the controls indicator will be visible by default.",
+        tooltip="",
+        skin=Skins.HelpSkin
+    )
+)
+
+opts.add(
+    Objects.Label(
         optionName="COCKPIT_SHAKE_AMPLITUDE_HELP",
         x=rightColumnX,
-        y=helpLine(),
+        y=currentLineY,
         text="Adjust the severity of the cockpit shaking effect. 0 Disables Cockpit Shake, 1 is the maximum",
         tooltip="",
         skin=Skins.HelpSkin
@@ -145,15 +153,76 @@ opts.add(
         x=rightColumnX,
         y=currentLineY,
         state=False,
-        text="Enable Force Feedback (INOP - TODO)",
+        text="Enable Force Feedback",
         tooltip="When enabled, the joystick will provide force feedback during flight.",
         skin=Skins.CheckBoxSkin
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="INTERCOM_HOT_MIC_HELP",
+        x=leftColumnX,
+        y=helpLine(),
+        text="Force intercom to be a hot mic instead of PTT.",
+        tooltip="DON'T BLOW OUT YOUR CREWMATES EARDRUMS!",
+        skin=Skins.HelpSkin
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="FORCE_FEEDBACK_HELP",
+        x=rightColumnX,
+        y=currentLineY,
+        text="Use native FFB cyclic force trim; conventional pedals keep centered-device trim.",
+        tooltip="",
+        skin=Skins.HelpSkin
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="COCKPIT_LIVERY",
+        x=leftColumnX,
+        y=newLine(),
+        text="Cockpit Livery:",
+        tooltip="Change the cockpit livery from light to dark.",
+        skin=Skins.StaticOptionsCaptionSkin
+    )
+)
+
+opts.add(
+    Objects.ComboBox.cockpit_livery(
+        cockpit_folder="Cockpit_AH1G",
+        x=leftColumnX + 150,
+        y=currentLineY,
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="COCKPIT_LIVERY_HELP",
+        x=leftColumnX,
+        y=helpLine(),
+        text="Change the cockpit livery from light to dark.",
+        tooltip="",
+        skin=Skins.HelpSkin
     )
 )
 
 #endregion
 
 #region AI Gunner
+opts.add(
+    Objects.Divider(
+        optionName="AI_GUNNER_SECTION",
+        x=headerX,
+        y=currentLineY + (sectionLineSpacing // 2),
+        w=894,
+    )
+)
+
 opts.add(
     Objects.Label(
         optionName="AI_GUNNER",
@@ -193,15 +262,55 @@ opts.add(
 )
 
 opts.add(
-    Objects.Checkbox(
+    Objects.Label(
+        optionName="DISABLE_AI_GUNNER_HELP",
+        x=leftColumnX,
+        y=helpLine(),
+        text="Completely Disable all AI Gunner functionality.",
+        tooltip="",
+        skin=Skins.HelpSkin
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="DISABLE_AI_GUNNER_LOW_AMMO_HELP",
+        x=rightColumnX,
+        y=currentLineY,
+        text="Disable Gunner callout when 2 rockets are left in rocket pods.",
+        tooltip="",
+        skin=Skins.HelpSkin,
+        depends_on="DISABLE_AI_GUNNER"
+    )
+)
+
+opts.add(
+    Objects.Label(
         optionName="MUTE_AI_GUNNER",
         x=leftColumnX,
         y=newLine(),
-        state=False,
-        text="Mute AI Gunner",
-        tooltip="When enabled, the AI gunner will be muted.",
-        skin=Skins.CheckBoxSkin,
-        depends_on="DISABLE_AI_GUNNER",
+        text="Gunner Voice Options:",
+        tooltip="Change the mute status of the AI gunner.",
+        skin=Skins.StaticOptionsCaptionSkin,
+        depends_on="DISABLE_AI_GUNNER"
+    )
+)
+
+opts.add(
+    Objects.ComboBox(
+        optionName="MUTE_AI_GUNNER",
+        x=leftColumnX + 150,
+        y=currentLineY,
+        w=150,
+        default=0,
+        items=[
+            ("Unmuted", 0),
+            ("Unmuted + Subtitles", 1),
+            ("Muted", 2),
+            ("Muted + Subtitles", 3),
+        ],
+        skin=Skins.ComboListSkinOptions,
+        depends_on="DISABLE_AI_GUNNER"
     )
 )
 
@@ -215,6 +324,30 @@ opts.add(
         tooltip="Stop AI Gunner calling out when you have empty rocket ammo as you fire",
         skin=Skins.CheckBoxSkin,
         depends_on="DISABLE_AI_GUNNER",
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="MUTE_AI_GUNNER_HELP",
+        x=leftColumnX,
+        y=helpLine(),
+        text="Adjust Voice Mute and Enable Subtitles for the AI Gunner.",
+        tooltip="",
+        skin=Skins.HelpSkin,
+        depends_on="DISABLE_AI_GUNNER"
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="DISABLE_AI_GUNNER_EMPTY_AMMO_HELP",
+        x=rightColumnX,
+        y=currentLineY,
+        text="Disable Gunner callout when rocket pods are empty.",
+        tooltip="",
+        skin=Skins.HelpSkin,
+        depends_on="DISABLE_AI_GUNNER"
     )
 )
 
@@ -239,7 +372,8 @@ opts.add(
         y=currentLineY,
         text="Menu Long Press Time:",
         tooltip="",
-        skin=Skins.StaticOptionsCaptionSkin
+        skin=Skins.StaticOptionsCaptionSkin,
+        depends_on="DISABLE_AI_GUNNER"
     )
 )
 
@@ -251,7 +385,8 @@ opts.add(
         w=200,
         default=0.25,
         max=1, min=0.1, step=0.05,
-        skin=Skins.HorzSliderSkinOptions
+        skin=Skins.HorzSliderSkinOptions,
+        depends_on="DISABLE_AI_GUNNER"
     )
 )
 
@@ -273,13 +408,35 @@ opts.add(
         y=helpLine(),
         text="Adjust the duration of the long press required for the AI gunner menu.",
         tooltip="",
-        skin=Skins.HelpSkin
+        skin=Skins.HelpSkin,
+        depends_on="DISABLE_AI_GUNNER"
+    )
+)
+
+opts.add(
+    Objects.Label(
+        optionName="OVERRIDE_AI_GUNNER_COALITION_CHECKS_HELP",
+        x=leftColumnX,
+        y=currentLineY,
+        text="Allow AI Gunner to Target Friendly Units (WHY?!).",
+        tooltip="",
+        skin=Skins.HelpSkin,
+        depends_on="DISABLE_AI_GUNNER"
     )
 )
 
 #endregion
 
 #region Accessory Options
+opts.add(
+    Objects.Divider(
+        optionName="ACCESSORY_OPTIONS_SECTION",
+        x=headerX,
+        y=currentLineY + (sectionLineSpacing // 2),
+        w=894,
+    )
+)
+
 opts.add(
     Objects.Label(
         optionName="ACCESSORY_OPTIONS_",
@@ -462,83 +619,6 @@ opts.add(
     )
 )
 
-
-#endregion
-
-#region Advanced Options
-opts.add(
-    Objects.Label(
-        optionName="ADVANCED_OPTIONS",
-        x=headerX,
-        y=newSection(),
-        w=200,
-        text="Advanced Options",
-        tooltip="",
-        skin=Skins.StaticOptionsCaptionSkin
-    )
-)
-
-opts.add(
-    Objects.Label(
-        optionName="ADVANCED_OPTIONS_HELP_1",
-        x=leftColumnX,
-        y=helpLine(),
-        w=800,
-        text="The options in this section are for advanced users only. Changing these options may cause issues with the mod if you do not know what you are doing.",
-        tooltip="",
-        skin=Skins.HelpSkin
-    )
-)
-
-opts.add(
-    Objects.Label(
-        optionName="ADVANCED_OPTIONS_HELP_2",
-        x=leftColumnX,
-        y=helpLine(),
-        w=800,
-        text="For more information on these options, see the manual.",
-        tooltip="",
-        skin=Skins.HelpSkin
-    )
-)
-
-#region Dynamic Port Number
-
-opts.add(
-    Objects.Label(
-        optionName="MULTICREW_PORT",
-        x=leftColumnX,
-        y=newLine(),
-        text="Multicrew Port:",
-        tooltip="",
-        skin=Skins.StaticOptionsCaptionSkin
-    )
-)
-
-opts.add(
-    Objects.Editbox(
-        optionName="MULTICREW_PORT",
-        x=leftColumnX + 100,
-        y=currentLineY,
-        default=25389,
-        numeric=True,
-        tooltip="Customize Port Number for multicrew",
-        skin=Skins.EditBoxSkinME
-    )
-)
-
-opts.add(
-    Objects.Label(
-        optionName="MULTICREW_PORT_HELP",
-        x=leftColumnX,
-        y=helpLine(),
-        text="Change the multicrew port number if you have conflicts with other mods or software. Default is 25389.",
-        tooltip="",
-        skin=Skins.HelpSkin
-    )
-)
-
-#endregion
 
 #endregion
 
